@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import { useHistory } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import { useHistory } from 'react-router-dom';
 
 const Login = ({ setAuthentication, authentication }) => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -21,15 +21,15 @@ const Login = ({ setAuthentication, authentication }) => {
     };
 
     const options = {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(requestBody),
     };
 
     const result = await fetch(
-      "http://localhost:4000/api/users/login",
+      `${process.env.REACT_APP_API_BASE_URL}/api/users/login`,
       options
     );
     const response = await result.json();
@@ -41,7 +41,7 @@ const Login = ({ setAuthentication, authentication }) => {
         isLoggedIn: true,
         username: username,
       });
-      navigate("/");
+      navigate('/');
     } else {
       const error = response.message;
       console.log(error);
@@ -51,8 +51,8 @@ const Login = ({ setAuthentication, authentication }) => {
 
   const handleSignup = (event) => {
     event.preventDefault();
-    console.log("Navigate to Sign-up page!");
-    navigate("/sign-up");
+    console.log('Navigate to Sign-up page!');
+    navigate('/sign-up');
   };
 
   return (

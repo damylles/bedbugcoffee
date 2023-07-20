@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Checkout({ cart, setCart, authentication, setAuthentication }) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   const removeFromCart = async (id) => {
     let newEntries = cart.entries.filter((value) => value.id != id);
@@ -32,15 +32,15 @@ function Checkout({ cart, setCart, authentication, setAuthentication }) {
     };
 
     const options = {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(requestBody),
     };
 
     const result = await fetch(
-      "http://localhost:4000/api/users/login",
+      `${process.env.REACT_APP_API_BASE_URL}/api/users/login`,
       options
     );
     const response = await result.json();

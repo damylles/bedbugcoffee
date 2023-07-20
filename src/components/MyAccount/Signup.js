@@ -1,20 +1,20 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 // import { registerUser } from '../api';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 // const express = require('express');
 
 const Signup = ({ setAuthentication, authentication }) => {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  const [passwordConfirmation, setPasswordConfirmation] = useState("");
-  const [error, setError] = useState("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setError("");
+    setError('');
 
     if (password !== passwordConfirmation) {
       setError("Password and password confirmation don't match");
@@ -22,19 +22,22 @@ const Signup = ({ setAuthentication, authentication }) => {
     }
 
     try {
-      const response = await fetch("http://localhost:4000/api/users/register", {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-        body: JSON.stringify({ username, email, password }),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_BASE_URL}/api/users/register`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          method: 'POST',
+          body: JSON.stringify({ username, email, password }),
+        }
+      );
 
       const info = await response.json();
 
-      if (info.error === "A user by that username already exists") {
+      if (info.error === 'A user by that username already exists') {
         setError(
-          "Username already exists. Please choose a different username."
+          'Username already exists. Please choose a different username.'
         );
       } else if (info.token) {
         setAuthentication({
@@ -42,8 +45,8 @@ const Signup = ({ setAuthentication, authentication }) => {
           isLoggedIn: true,
           username: username,
         });
-        navigate("/");
-        console.log("success");
+        navigate('/');
+        console.log('success');
       }
     } catch (err) {
       console.error(err);

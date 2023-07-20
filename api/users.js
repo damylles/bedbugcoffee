@@ -1,8 +1,8 @@
 /* eslint-disable no-useless-catch */
-const express = require("express");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-require("dotenv").config();
+const express = require('express');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 const { JWT_SECRET } = process.env;
 
 const {
@@ -11,14 +11,14 @@ const {
   getUserById,
   getUserByUsername,
   getAllUsers,
-} = require("../db/models/users");
+} = require('../db/models/users');
 
 const router = express.Router();
 
 // POST /api/users/register
 
 //export const registerAPI = async (username, email, password) => {
-router.post("/register", async (req, res, next) => {
+router.post('/register', async (req, res, next) => {
   const { username, password, email } = req.body;
   try {
     // Check if the username is already taken
@@ -26,7 +26,7 @@ router.post("/register", async (req, res, next) => {
 
     if (existingUser) {
       next({
-        error: "UserTakenError",
+        error: 'UserTakenError',
         message: `User ${username} is already taken.`,
         name: username,
       });
@@ -36,8 +36,8 @@ router.post("/register", async (req, res, next) => {
     // Check if the password is at least 8 characters long
     if (password.length < 8) {
       next({
-        error: "PasswordTooShortError",
-        message: "Password is too short!",
+        error: 'PasswordTooShortError',
+        message: 'Password is too short!',
         name: username,
       });
       return;
@@ -59,7 +59,7 @@ router.post("/register", async (req, res, next) => {
     );
 
     res.send({
-      message: "Thanks for signing up for our service.",
+      message: 'Thanks for signing up for our service.',
       token,
       user: {
         id: newUser.id,
@@ -74,7 +74,7 @@ router.post("/register", async (req, res, next) => {
 
 // POST /api/users/login
 
-router.post("/login", async (req, res, next) => {
+router.post('/login', async (req, res, next) => {
   try {
     const { username, password } = req.body.user;
 
@@ -86,7 +86,7 @@ router.post("/login", async (req, res, next) => {
     if (!user) {
       // If the user doesn't exist, send an appropriate error response
       return res.send({
-        message: "Invalid username",
+        message: 'Invalid username',
       });
     }
 
@@ -96,7 +96,7 @@ router.post("/login", async (req, res, next) => {
     if (!isPasswordMatch) {
       // If the password doesn't match, send an appropriate error response
       return res.send({
-        message: "Invalid password",
+        message: 'Invalid password',
       });
     }
 
@@ -122,16 +122,16 @@ router.post("/login", async (req, res, next) => {
 });
 
 // GET /api/users/me
-router.get("/me", async (req, res, next) => {
+router.get('/me', async (req, res, next) => {
   try {
     // Get the current user based on the authentication token
     const currentUser = req.user;
 
     if (!currentUser) {
       return next({
-        error: "error",
-        message: "You must be logged in to perform this action",
-        name: "undefined",
+        error: 'error',
+        message: 'You must be logged in to perform this action',
+        name: 'undefined',
       });
     }
 
